@@ -1,0 +1,14 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+.container-fluid {
+    width: 1000px;
+    margin: 0 auto;
+}
+ul li{
+ list-style:none;
+}
+a:hover{
+ text-decoration: none;
+}

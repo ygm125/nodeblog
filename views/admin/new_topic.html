@@ -1,0 +1,75 @@
+<article class="module width_full">
+			<header><h3>发布新话题</h3></header>
+				<div class="module_content">
+						<fieldset>
+							<label>标题</label>
+							<input id="txt_title" type="text">
+						</fieldset>
+						<fieldset>
+							<label>内容</label>
+							<textarea id="tea_content" rows="12"></textarea>
+						</fieldset>
+						<fieldset style="width:68%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
+							<label>所属种类</label>
+							<select id="sel_cag1" style="width:92%;">
+								<option>请选择一级分类</option>
+								
+							</select><br/><br/>
+                             <select id="sel_cag2" style="width:92%;">
+								<option>请选择二级分类</option>
+							
+							</select>
+						</fieldset>
+						<fieldset style="width:48%; float:left;display:none"> <!-- to make two field float next to one another, adjust values accordingly -->
+							<label>标签</label>
+							<input id="txt_tag" type="text" style="width:92%;">
+						</fieldset><div class="clear"></div>
+				</div>
+			<footer>
+				<div class="submit_link">
+					<input id="btn_publish" type="button" value="发布" class="alt_btn">
+					<input id="btn_reset" type="button" value="重置">
+				</div>
+			</footer>
+		</article><!-- end of post new article -->
+<script type="text/javascript">
+	$(function(){
+        
+		$.post('/admin/categories',{opr:"sel"},function(data){
+                var html1='<option value="0">请选择一个一级分类</option>',
+                    html2='<option value="0">请选择一个二级分类</option>';
+                
+                for(var i=0;i<data.length;i++){
+                    
+                    html1+='<option value="'+data[i]['_id']+'">'+data[i]['cat1']+'</option>';
+                    
+                    for(var j=0;j<data[i]['cat2'].length;j++){
+                         html2+='<option style="display:none" data-pid="'+data[i]['_id']+'" value="'+data[i]['cat2'][j]['cid']+'">'+data[i]['cat2'][j]['name']+'</option>';
+                    }
+                }
+                $("#sel_cag1").html(html1).change(function(){              
+                   $("#sel_cag2 option:gt(0)").hide();                
+                    $("#sel_cag2 option[data-pid="+$(this).val()+"]").show();                   
+                });
+                
+                $("#sel_cag2").html(html2);
+                
+		},"JSON");   
+  
+        
+		$("#btn_publish").click(function(){
+			var prarm={};
+			prarm.title=$("#txt_title").val();
+			prarm.content=$("#tea_content").val();
+            prarm.cat1=$("#sel_cag1").val();
+            prarm.cat2=$("#sel_cag2").val();
+            
+			$.post('/admin/new_topic',prarm,function(msg){
+				alert(msg);
+			});
+		});
+		$("#btn_reset").click(function(){
+			$(":text,textarea","div.module_content").val('');
+		});
+	});
+</script>

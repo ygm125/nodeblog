@@ -1,0 +1,38 @@
+<div class="mod">
+	<h3>分类目录</h3>
+	<ul>
+      <% for(var i=0; i<categories.length; i++){ %>
+        <li>
+			<a href="#"><img src="/img/next32.png" /> <%= categories[i]['cat1'] %></a> (<%= categories[i]['count'] %>)
+            <ul>
+                <% for(var j=0; j<categories[i]['cat2'].length; j++){ %>
+                 <li>
+        	     <a href="#"><img src="/img/next32.png" /> <%= categories[i]['cat2'][j]['name'] %></a>
+                 (<%= categories[i]['cat2'][j]['count'] %>)
+                 </li>
+                <% } %>
+            </ul>
+		</li>
+      <% } %>
+	</ul>
+</div>
+<div class="mod">
+	<h3>近期话题</h3>
+	<ul>
+      <% for(var i=0; i<recenttopic.length; i++){ %>
+    	<li>
+			<a href="/topic/<%= recenttopic[i]['_id'] %>"><%= recenttopic[i]['title'] %></a>
+		</li>
+      <% } %>
+	</ul>
+</div>
+<div class="mod">
+	<h3>链接表</h3>
+	<ul>
+    <% for(var i=0; i<links.length; i++){ %>
+		<li>
+			<a href="<%= links[i]['url'] %>" target="_blank"><%= links[i]['auth'] %></a>
+		</li>
+    <% } %>
+	</ul>
+</div>

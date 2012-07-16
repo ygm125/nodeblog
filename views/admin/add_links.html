@@ -1,0 +1,43 @@
+<article class="module width_full">
+    		<header><h3>添加新链接</h3></header>
+				<div class="module_content">
+                       <fieldset> 
+ 
+    						<label>作者</label> 
+ 
+							<input id="txt_auth" type="text"> 
+ 
+						</fieldset>
+                         <fieldset> 
+ 
+        					<label>网址</label> 
+ 
+							<input id="txt_url" type="text"> 
+ 
+						</fieldset>             
+                  
+                </div>
+                <footer> 
+ 
+    			<div class="submit_link"> 
+ 
+					<input id="btn_add" type="button" value="添加链接" class="alt_btn"> 
+ 
+				</div> 
+ 
+			</footer>
+</article>
+
+<script type="text/javascript">
+    $(function(){
+		$("#btn_add").click(function(){
+			var prarm={};
+			prarm.auth=$("#txt_auth").val();
+			prarm.url=$("#txt_url").val();
+			$.post('/admin/add_links',prarm,function(msg){
+				alert(msg);
+			});
+		});
+	
+	});
+</script>

@@ -1,0 +1,68 @@
+<article class="module width_full">
+    		<header><h3>编辑话题</h3></header>
+				<div class="module_content">
+						<fieldset>
+							<label>标题</label>
+							<input id="txt_title" type="text">
+						</fieldset>
+						<fieldset>
+							<label>内容</label>
+							<textarea id="tea_content" rows="12"></textarea>
+						</fieldset>
+						<fieldset style="width:68%; float:left; margin-right: 3%;"> <!-- to make two field float next to one another, adjust values accordingly -->
+							<label>所属种类</label>
+							<select id="sel_cag1" style="width:92%;">
+								<option>请选择一级分类</option>
+								
+							</select><br/><br/>
+                             <select id="sel_cag2" style="width:92%;">
+								<option>请选择二级分类</option>
+							
+							</select>
+						</fieldset>
+						<fieldset style="width:48%; float:left;display:none"> <!-- to make two field float next to one another, adjust values accordingly -->
+							<label>标签</label>
+							<input id="txt_tag" type="text" style="width:92%;">
+						</fieldset><div class="clear"></div>
+				</div>
+			<footer>
+				<div class="submit_link">
+					<input id="btn_publish" type="button" value="更新" class="alt_btn">                    
+					<input id="btn_reset" type="button" value="重置">
+                    <input id="btn_return" type="button" value="返回" class="alt_btn">
+				</div>
+			</footer>
+		</article><!-- end of post new article -->
+<script type="text/javascript">
+	$(function(){
+        
+        var id=/\w+$/.exec(location.pathname)||[];
+        id=id.join('');
+        if(id.length==24){
+            $.post('/admin/edit_topic',{ id: id,opr:'get'},function(data){      
+                console.log(data);
+                $("#txt_title").val(data.title);
+                $("#tea_content").val(data.content)
+            },"JSON");
+                
+    		$("#btn_publish").click(function(){
+    			var prarm={};
+                prarm.id=id;
+                prarm.opr="update";
+    			prarm.title=$("#txt_title").val();
+    			prarm.content=$("#tea_content").val();
+    			$.post('/admin/edit_topic',prarm,function(msg){
+    				alert(msg);
+                    location.href="/admin/operate_topic";
+    			});
+    		});
+    		$("#btn_reset").click(function(){
+    			$(":text,textarea","div.module_content").val('');
+    		});
+            
+            $("#btn_return").click(function(){
+                location.href="/admin/operate_topic";
+            });
+        }
+	});
+</script>

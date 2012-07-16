@@ -1,0 +1,81 @@
+<article class="module width_full">
+    <header><h3 class="tabs_involved">内容管理</h3>
+        	<ul class="tabs">
+       			<li class="active"><a href="#tab1">话题</a></li>
+        		<li><a href="#tab2">评论</a></li>
+    		</ul>
+    </header>
+    <div class="tab_container">
+    		<div id="tab1" class="tab_content" style="display: block; ">
+			<table class="tablesorter" cellspacing="0"> 
+			<thead> 
+				<tr> 
+   					<th class="header"></th> 
+    				<th class="header headerSortDown">标题</th> 
+    				<th class="header">种类</th> 
+    				<th class="header">创建时间</th> 
+    				<th class="header">操作</th> 
+				</tr> 
+			</thead>
+            <tbody id="tabl1_body" data-bind="template: { name: 'topic-template', foreach: data }"></tbody>
+		    </table>
+			</div><!-- end of #tab1 -->			
+			<div id="tab2" class="tab_content" style="display: none; ">
+			<table class="tablesorter" cellspacing="0"> 
+			<thead> 
+				<tr> 
+   					<th class="header"></th> 
+    				<th class="header">Comment</th> 
+    				<th class="header">Posted by</th> 
+    				<th class="header">Posted On</th> 
+    				<th class="header">Actions</th> 
+				</tr> 
+			</thead>
+				<tr> 
+   					<td><input type="checkbox"></td> 
+    				<td>Lorem Ipsum Dolor Sit Amet</td> 
+    				<td>Mark Corrigan</td> 
+    				<td>5th April 2011</td> 
+    				<td><input type="image" src="images/icn_edit.png" title="Edit"><input type="image" src="images/icn_trash.png" title="Trash"></td> 
+				</tr>
+			</table>
+			</div><!-- end of #tab2 -->
+</article>
+<!-- end of post new article -->
+<script type="text/html" id="topic-template">
+    <tr>
+    <td><input type="radio" /></td>
+     <td data-bind="text: title"></td>
+     <td data-bind="text: cat1"></td>
+     <td data-bind="text: creat_at"></td>
+     <td>
+     <a data-bind="attr: { href:'/admin/edit_topic/'+_id}"><img src="images/icn_edit.png" title="Edit" /></a>&nbsp;&nbsp;
+     <input type="image" data-bind="click: $parent.topicDel" src="images/icn_trash.png" title="Trash" /></td>
+    </tr>
+</script>
+<script type="text/javascript">
+	$(function(){
+	    var param={};
+        param.opr="get";
+        $.post('/admin/operate_topic',param,function(data){              
+               init(data);
+		},"JSON");
+        
+     function init(data){
+         var ay=ko.observableArray(data);         
+         var viewModel={
+                data:ay,
+                topicDel:function(topic){
+                   if(confirm("确定要删除吗？")){                      
+                        $.post('/admin/operate_topic',{opr:'remove',id:topic['_id']},function(msg){              
+                              alert(msg);
+                              ay.remove(topic);
+                    	});
+                   }
+                }
+         }             
+         ko.applyBindings(viewModel,$("#data_content")[0]);  
+     }
+     
+	});
+</script>

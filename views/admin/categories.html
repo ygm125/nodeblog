@@ -1,0 +1,77 @@
+<article class="module width_full">
+    <header>
+        <h3>
+            添加分类
+        </h3>
+    </header>
+    <div class="module_content">
+        <fieldset>
+            <label>
+                一级分类(多个按逗号分割)
+            </label>
+            <input id="txt_cat1" type="text" />
+            <div class="submit_link">
+                <input id="btn_add1" type="button" value="添加" class="alt_btn" />
+            </div>
+        </fieldset>
+        <fieldset>
+            <label>
+                二级分类(多个按逗号分割)
+            </label>
+            <select id="sel_cat1">
+                <option value="0">
+                    请选择一个一级分类
+                </option>
+            </select>
+            <br/>
+            <br/>
+            <input id="txt_cat2" type="text" />
+            <div class="submit_link">
+                <input id="btn_add2" type="button" value="添加" class="alt_btn" />
+            </div>
+        </fieldset>
+    </div>
+</article>
+<script type="text/javascript">
+    $(function(){
+        
+        function getSel(){
+            var prarm={};
+    		prarm.opr="sel";
+			$.post('/admin/categories',prarm,function(data){
+                var html='<option value="0">请选择一个一级分类</option>';
+                for(var i=0;i<data.length;i++){
+                    
+                    html+='<option value="'+data[i]['_id']+'">'+data[i]['cat1']+'</option>';
+                }
+                $("#sel_cat1").html(html);           
+			},"JSON");                  
+        }
+        getSel();
+        
+		$("#btn_add1").click(function(){
+			var prarm={};
+			prarm.opr="add1";
+			prarm.content=$("#txt_cat1").val();
+			$.post('/admin/categories',prarm,function(msg){
+                getSel();
+				alert(msg);
+			});
+		});
+        
+        $("#btn_add2").click(function(){
+    		var prarm={};
+			prarm.opr="add2";
+            prarm.sid=$("#sel_cat1").val();
+            if(prarm.sid==0){
+                alert("请选择一个一级分类！");
+                return;
+            }
+			prarm.content=$("#txt_cat2").val();
+			$.post('/admin/categories',prarm,function(msg){
+				alert(msg);
+			});
+		});
+		
+	});
+</script>

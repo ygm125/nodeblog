@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%
+        var headers = config.site_headers || [];
+        for (var i = 0, l = headers.length; i < l; i++) { 
+    %>
+    <%- headers[i] %>
+    <% } %>
+    <% if (locals.topic) { %>
+    <title>
+        <%= topic.title %>-<%= config.name %></title>
+    <% } else { %>
+    <title>
+        <%= config.description %></title>
+    <% } %>
+    <link rel="stylesheet" href="/admin/css/layout.css" type="text/css" media="screen" />
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="/admin/css/ie.css" type="text/css" media="screen" />
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="/js/knockout-latest.js"></script>
+    <script type="text/javascript">    
+        $(function(){
+            $("#sidebar,#main").height($(window).height()-55-38);
+        });
+    </script>
+</head>
+<body>
+    <header id="header">
+        <hgroup>
+            <h1 class="site_title"><a href="/admin"><%- config.site_logo || config.name %></a></h1>
+            <h2 class="section_title"></h2><div class="btn_view_site"><a href="/">网站首页</a></div>
+        </hgroup>
+    </header> <!-- end of header bar -->
+    
+    <section id="secondary_bar">
+        <div class="user">
+            <p><%= locals.current_user.name %></p>
+            <a class="logout_user" href="/signout" title="注销">Logout</a>
+        </div>
+        <div class="breadcrumbs_container">
+            <article class="breadcrumbs"><a href="/admin">首页</a> <div class="breadcrumb_divider"></div> <a class="current">设置</a></article>
+        </div>
+    </section><!-- end of secondary bar -->
+    
+    <aside id="sidebar" class="column">
+        <form class="quick_search">
+            <input type="text" value="Quick Search" onFocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
+        </form>
+        <hr/>
+        <h3>内容管理</h3>
+        <ul class="toggle">
+            <li class="icn_new_article"><a href="/admin/new_topic">发表话题</a></li>
+            <li class="icn_edit_article" style="display:none"><a href="/admin/edit_topic">编辑话题</a></li>
+            <li class="icn_edit_article"><a href="/admin/operate_topic">操作话题</a></li>
+            <li class="icn_categories"><a href="/admin/categories">话题种类</a></li>
+        </ul>
+        <h3>用户管理</h3>
+        <ul class="toggle">
+            <li class="icn_add_user"><a href="/admin/add_user">添加新用户</a></li>
+            <li class="icn_view_users"><a href="/admin/manage_users">用户管理</a></li>
+            <li class="icn_profile"><a href="/admin/profile">个人管理</a></li>
+        </ul>
+        <h3>各种设置</h3>
+        <ul class="toggle">
+            <li class="icn_add_links"><a href="/admin/add_links">添加链接</a></li>
+        </ul>
+        <footer>
+            <hr />
+            <p>&copy; v0.6.3 / 基于node 2012</p>
+        </footer>
+    </aside><!-- end of sidebar -->
+    
+    <section id="main" class="column">
+        <%- body %>
+        
+    </section>
+</body>
+</html>

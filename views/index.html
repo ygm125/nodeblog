@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="span9">
+      <%- partial('topic/list', { 
+            'base':'/',
+            'topic':topic,
+            'current_page':current_page,
+            'pages':pages
+        }) %>
+    </div>
+    <div class="span3">
+        <%- partial('sidebar') %>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="span9">
+        <div class='panel'>
+            <div class='header'>
+                <ul class='breadcrumb'>
+                    <li>
+                        <a href='/'>主页</a>
+                        <span class='divider'>
+                            /
+                        </span>
+                    </li>
+                    <li class='active'>
+                        话题详情
+                    </li>
+                </ul>
+            </div>
+            <div class='inner'>
+                <div class='topic_content'>
+                     <h3>
+                        <%=topic['title']%>
+                    </h3>
+                    <p>
+                    </p>
+                    <p>
+                        <%=topic['content']%>
+                    </p>
+                </div>
+                <hr />
+                <div class="form-answer">              
+                    昵称：<input type="text" id="tbCommentAuthor" style="width:50%" class="author" disabled="disabled"
+                    value="<%if(locals.current_user){%><%=locals.current_user.name%><%}else{%>匿名<%}%>">
+                    <textarea class="ke-edit-textarea" hidefocus="true" style="width: 90%;height: 121px; "></textarea>
+                    <div class="form-actions">
+                    <input type="submit" name="dosubmit" value="添加回复" class="btn btn-primary">
+                    <span class="help-inline">回答或评论请言语冷静，谢谢合作</span>                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <%- partial( 'sidebar') %>
+    </div>
+</div>
